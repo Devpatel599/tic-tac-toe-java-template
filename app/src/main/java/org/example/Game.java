@@ -1,4 +1,4 @@
-package org.example;  // Ensure this is correct
+package org.example;
 
 import java.util.Scanner;
 
@@ -8,18 +8,18 @@ public class Game {
     private char currentPlayer;
     private int moves;
 
-    public Game(Scanner scanner) {
+    public Game(Scanner scanner, char startingPlayer) {
         this.scanner = scanner;
         this.board = new Board();
-        this.currentPlayer = 'X';
+        this.currentPlayer = startingPlayer;
         this.moves = 0;
     }
 
-    public void play() {
+    public char play() {
         System.out.println("Welcome to Tic-Tac-Toe!");
+        System.out.println("Player " + currentPlayer + " will go first!");
 
-        boolean gameOver = false;
-        while (!gameOver) {
+        while (true) {
             board.print();
             int move = Utils.getValidMove(scanner, board);
             board.placeMove(move, currentPlayer);
@@ -28,11 +28,11 @@ public class Game {
             if (board.isWinner(currentPlayer)) {
                 board.print();
                 System.out.println("Player " + currentPlayer + " wins!");
-                gameOver = true;
+                return currentPlayer;
             } else if (moves == 9) {
                 board.print();
                 System.out.println("It's a draw!");
-                gameOver = true;
+                return 'T';
             } else {
                 currentPlayer = (currentPlayer == 'X') ? 'O' : 'X';
             }
