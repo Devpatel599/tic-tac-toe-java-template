@@ -10,3 +10,4 @@ class AppTest {
         assertNotNull(classUnderTest, "app should be initialized");
     }
 }
+

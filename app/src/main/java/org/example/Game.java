@@ -5,23 +5,34 @@ import java.util.Scanner;
 public class Game {
     private final Scanner scanner;
     private final Board board;
+    private final int mode;
     private char currentPlayer;
     private int moves;
+    private final ComputerPlayer ai;
 
-    public Game(Scanner scanner, char startingPlayer) {
+    public Game(Scanner scanner, int mode) {
         this.scanner = scanner;
         this.board = new Board();
-        this.currentPlayer = startingPlayer;
+        this.mode = mode;
+        this.currentPlayer = 'X';
         this.moves = 0;
+        this.ai = new ComputerPlayer();
     }
 
     public char play() {
-        System.out.println("Welcome to Tic-Tac-Toe!");
-        System.out.println("Player " + currentPlayer + " will go first!");
+        System.out.println((mode == 3 ? "Computer" : "Player X") + " will go first!");
 
         while (true) {
             board.print();
-            int move = Utils.getValidMove(scanner, board);
+
+            int move;
+            if ((mode == 2 && currentPlayer == 'O') || (mode == 3 && currentPlayer == 'X')) {
+                move = ai.chooseMove(board, currentPlayer, (currentPlayer == 'X' ? 'O' : 'X'), moves);
+                System.out.println("Computer chooses: " + move);
+            } else {
+                move = Utils.getValidMove(scanner, board);
+            }
+
             board.placeMove(move, currentPlayer);
             moves++;
 
@@ -33,9 +44,9 @@ public class Game {
                 board.print();
                 System.out.println("It's a draw!");
                 return 'T';
-            } else {
-                currentPlayer = (currentPlayer == 'X') ? 'O' : 'X';
             }
+
+            currentPlayer = (currentPlayer == 'X') ? 'O' : 'X';
         }
     }
 }
