@@ -1,4 +1,0 @@
-Final Game Log:
-Player X Wins: 2
-Player O Wins: 1
-Ties: 1
